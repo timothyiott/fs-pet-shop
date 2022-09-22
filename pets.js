@@ -1,10 +1,10 @@
 let fs = require('fs');
 let command = process.argv[2];
-let parsedPets;
 
-if(command == 'read'){
+function getPetData(){
+    if(command == 'read'){
     fs.readFile("pets.json", "utf8", function(error, data){
-        parsedPets = JSON.parse(data);
+        let parsedPets = JSON.parse(data);
         if(error){
             console.error(error)
         } else if(process.argv[3] == undefined){
@@ -16,9 +16,9 @@ if(command == 'read'){
         }
         process.exit(1);
     })
-} else if(command == 'create'){
+    } else if(command == 'create'){
     fs.readFile("pets.json", "utf8", function(error, data){
-        parsedPets = JSON.parse(data)
+        let parsedPets = JSON.parse(data)
         if(error){
             console.error(error)
         } else if(process.argv[3] !== undefined && process.argv[4] !== undefined && process.argv[5] !== undefined){
@@ -34,9 +34,13 @@ if(command == 'read'){
         }
         process.exit(1);
     })
-} else {
-    process.stderr.write("Usage: node pets.js [read | create | update | destroy]\n")
-    throw new Error('Whoops, no work done')
+    } else {
+    process.stderr.write('Usage: node pets.js [read | create | update | destroy]\n')
+    // throw new Error('Whoops, no work done')
+    process.exit(1);
+    }
 }
 
+getPetData();
 
+module.exports = getPetData;
